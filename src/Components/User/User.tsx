@@ -47,7 +47,7 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
 
             <h3>All Users:</h3>
 
-            {/*Updates username */} 
+            {/*Updates username  */} 
             {userOptions?
             <div className="m-5 w-25 d-flex flex-row">
                 <p className="m-2">{selectedUser.username}</p>
