@@ -9,6 +9,7 @@ import { AddReimbursement } from './Components/Reimbursement/AddReimbursement';
 import { UsersContainer } from './Components/User/UsersContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 function App() {
   return (
     <div className="App">
@@ -19,6 +20,10 @@ function App() {
             <Route path='/reimbursements' element={<ReimbursementContainer/>}/>
             <Route path='/addreimbursement' element={<AddReimbursement/>}/>
             <Route path='/users' element={<UsersContainer/>}/>
+            <Route path='/allreimbursements' element={<ReimbursementContainer/>}/>
+            <Route path='/pendingreimbursements' element={<ReimbursementContainer/>}/>
+            <Route path='/allpendingreimbursements' element={<ReimbursementContainer/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>

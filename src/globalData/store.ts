@@ -1,3 +1,4 @@
+import { ReimbInterface } from "../interfaces/ReimbInterface";
 import { UserInterface } from "../interfaces/UserInterface";
 
 export const store:any = {
@@ -9,6 +10,7 @@ export const store:any = {
         username:"",
         role:""
     } as UserInterface,
+
 
 
 

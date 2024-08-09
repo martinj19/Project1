@@ -32,7 +32,7 @@ export const Register:React.FC = () => {
 
     const register = async () => {
 
-        const response = await axios.post("http://localhost:8080/employews", user)
+        const response = await axios.post("http://localhost:8080/employees", user)
         .then((response) => {
             console.log(response.data)
             alert(response.data.username + " was created!")

@@ -6,6 +6,8 @@ import { Button, Table } from "react-bootstrap"
 
 export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
 
+    const navigate = useNavigate()
+
     useEffect(() => {
         console.log(users)
     })
@@ -23,6 +25,15 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
     //Set new username
     const [newUsername, setNewUsername] = useState<string>("")
 
+    //Set role
+    const [newRole, setNewRole] = useState<string>("")
+
+    //Set firstname
+    const [newFirst, setNewFirst] = useState<string>("")
+
+    //Set lastname
+    const [newLast, setNewLast] = useState<string>("")
+
     const selectUserData = (user:UserInterface) => {
         setSelectedUser(user)
         setUserOptions(!userOptions)
@@ -39,6 +50,40 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
             alert(response.data)
         }
 
+    }
+    const updateRole = async () => {
+        if(newRole) {
+            const response = await axios.patch("http://localhost:8080/employees/" + selectedUser.employeeId, newRole, {
+                headers: {"Content-Type": "text/plain"}
+            })
+        }
+    }
+    const updateFirst = async () => {
+        if(newFirst) {
+            const response = await axios.patch("http://localhost:8080/employees/firstname/" + selectedUser.employeeId, newFirst, {
+                headers: {"Content-Type": "text/plain"}
+            })
+            alert(response.data)
+        }
+    }
+    const updateLast = async () => {
+        if(newLast) {
+            const response = await axios.patch("http://localhost:8080/employees/lastname/" + selectedUser.employeeId, newLast, {
+                headers: {"Content-Type": "text/plain"}
+            })
+            console.log("hey i'm here")
+        }
+    }
+
+    const deleteUser = async () => {
+
+        const response = await axios.delete("http://localhost:8080/employees/" + selectedUser.employeeId)
+        .then((response) => {
+            console.log("User Deleted:" + response.data)
+            navigate("/users")
+        })
+
+        
     }
 
     return(
@@ -62,6 +107,51 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
             <></>
             }
 
+            {/* Updates role */}
+            {userOptions?
+            <div className="m-5 w-25 d-flex flex-row">
+                <p className="m-2">{selectedUser.role}</p>
+                <input className="m-2" type="text" placeholder="new role" onChange={(input) => {
+                    setNewRole(input.target.value)
+                }} />
+
+                <button className="m-2" onClick={updateRole}>Submit</button>
+                <button className="m-2">delete</button>
+            </div>
+            :
+            <></>
+            }
+
+            {/* Updates first name */}
+            {userOptions?
+            <div className="m-5 w-25 d-flex flex-row">
+                <p className="m-2">{selectedUser.firstName}</p>
+                <input className="m-2" type="text" placeholder="new first name" onChange={(input) => {
+                    setNewFirst(input.target.value)
+                }} />
+
+                <button className="m-2" onClick={updateFirst}>Submit</button>
+                <button className="m-2">delete</button>
+            </div>
+            :
+            <></>
+            }
+
+            {/* Updates last name */}
+            {userOptions?
+            <div className="m-5 w-25 d-flex flex-row">
+                <p className="m-2">{selectedUser.lastName}</p>
+                <input className="m-2" type="text" placeholder="new last name" onChange={(input) => {
+                    setNewLast(input.target.value)
+                }} />
+
+                <button className="m-2" onClick={updateLast}>Submit</button>
+                <button className="m-2">delete</button>
+            </div>
+            :
+            <></>
+            }
+
             <Table striped bordered hover variant="primary">
                 <thead>
                     <tr>
@@ -76,13 +166,13 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
 
                 <tbody>
                     {users.map((user,index) => (
-                        <tr key={user.employeeId} onClick={() => {selectUserData(user)}}>
-                            <td>{user.employeeId}</td>
-                            <td>{user.username} </td>
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.role}</td>
-                            <td><Button variant="outline-danger">Fire User</Button></td>
+                        <tr key={user.employeeId} >
+                            <td onClick={() => {selectUserData(user)}}>{user.employeeId}</td>
+                            <td onClick={() => {selectUserData(user)}}>{user.username} </td>
+                            <td onClick={() => {selectUserData(user)}}>{user.firstName}</td>
+                            <td onClick={() => {selectUserData(user)}}>{user.lastName}</td>
+                            <td onClick={() => {selectUserData(user)}}>{user.role}</td>
+                            <td><Button variant="outline-danger" onClick={deleteUser}>Fire User</Button></td>
                         </tr>
                     ))}
                 </tbody>
