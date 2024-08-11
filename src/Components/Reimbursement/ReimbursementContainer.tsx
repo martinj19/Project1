@@ -73,14 +73,14 @@ export const ReimbursementContainer:React.FC = () => {
 
        
 
-        <div className="collection-container">
-         <div>
-            <button onClick={() => navigate("/")}>Back to Login</button>
-            <button onClick={() => navigate("/addreimbursement")}>AddReimbursement</button>
-            <button onClick={() => navigate("/pendingreimbursements")}>Pending Reimbursements</button>
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/users")}>See Users</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allreimbursements")}>All Reimbursements</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allpendingreimbursements")}>All Pending Reimbursements</button>:<></>}
+        <div className="collection-container" style={{alignItems: "center"}}>
+         <div style={{alignItems: "center"}}>
+            <button onClick={() => navigate("/")} style={{border: "2px solid black"}}>Logout</button>
+            <button onClick={() => navigate("/addreimbursement")} style={{border: "2px solid black"}}>Add Reimbursement</button>
+            <button onClick={() => navigate("/pendingreimbursements")} style={{border: "2px solid black"}}>Your Pending Reimbursements</button>
+            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/users")} style={{border: "2px solid black"}}>See Users</button>:<></>}
+            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allreimbursements")} style={{border: "2px solid black"}}>All Reimbursements</button>:<></>}
+            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allpendingreimbursements")} style={{border: "2px solid black"}}>All Pending Reimbursements</button>:<></>}
         </div>
 
             <Reimbursement reimbursements={reimbursements}></Reimbursement>

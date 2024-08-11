@@ -90,48 +90,58 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
 
         <div className="container">
 
-            <h3>All Users:</h3>
+            <h3 style={{color: "white"}}>All Users:</h3>
+            <div className="d-flex justify-content-center">
 
-            {/*Updates username  */} 
-            {userOptions?
-            <div className="m-5 w-25 d-flex flex-row">
-                <p className="m-2">{selectedUser.username}</p>
-                <input className="m-2" type="text" placeholder="new username" onChange={(input) => {
-                    setNewUsername(input.target.value)
-                }} />
+                {/*Updates username  */} 
+                {userOptions?
+                <div className="m-5 w-25 d-flex flex-column aligh-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
+                    <p className="m-2" style={{color: "white"}}>Username</p>
+                    <input className="m-2" type="text" placeholder="new username" onChange={(input) => {
+                        setNewUsername(input.target.value)
+                    }} />
 
-                <button className="m-2" onClick={updateUsername}>Submit</button>
-                <button className="m-2">delete</button>
+                    <div className="d-flex">
+                        <button className="m-2" onClick={updateUsername}>Submit</button>
+                        <button className="m-2">Cancel</button>
+                    </div>
+                </div>
+                :
+                <></>
+                }
+
+                {/* Updates role */}
+                {userOptions?
+                <div className="m-5 w-25 d-flex flex-column aligh-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
+                    <p className="m-2" style={{color: "white"}}>Role</p>
+                    <input className="m-2" type="text" placeholder="new role" onChange={(input) => {
+                        setNewRole(input.target.value)
+                    }} />
+
+                    <div className="d-flex">
+                        <button className="m-2" onClick={updateRole}>Submit</button>
+                        <button className="m-2">Cancel</button>
+                    </div>
+                </div>
+                :
+                <></>
+                }
             </div>
-            :
-            <></>
-            }
 
-            {/* Updates role */}
-            {userOptions?
-            <div className="m-5 w-25 d-flex flex-row">
-                <p className="m-2">{selectedUser.role}</p>
-                <input className="m-2" type="text" placeholder="new role" onChange={(input) => {
-                    setNewRole(input.target.value)
-                }} />
-
-                <button className="m-2" onClick={updateRole}>Submit</button>
-                <button className="m-2">delete</button>
-            </div>
-            :
-            <></>
-            }
+            <div className="d-flex justify-content-center">
 
             {/* Updates first name */}
             {userOptions?
-            <div className="m-5 w-25 d-flex flex-row">
-                <p className="m-2">{selectedUser.firstName}</p>
+            <div className="m-5 w-25 d-flex flex-column aligh-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
+                <p className="m-2" style={{color: "white"}}>First Name</p>
                 <input className="m-2" type="text" placeholder="new first name" onChange={(input) => {
                     setNewFirst(input.target.value)
                 }} />
 
-                <button className="m-2" onClick={updateFirst}>Submit</button>
-                <button className="m-2">delete</button>
+                <div className="d-flex">
+                    <button className="m-2" onClick={updateFirst}>Submit</button>
+                    <button className="m-2">Cancel</button>
+                </div>
             </div>
             :
             <></>
@@ -139,20 +149,23 @@ export const User:React.FC<{users:UserInterface[]}> = ({users}) => {
 
             {/* Updates last name */}
             {userOptions?
-            <div className="m-5 w-25 d-flex flex-row">
-                <p className="m-2">{selectedUser.lastName}</p>
+            <div className="m-5 w-25 d-flex flex-column aligh-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
+                <p className="m-2" style={{color: "white"}}>Last Name</p>
                 <input className="m-2" type="text" placeholder="new last name" onChange={(input) => {
                     setNewLast(input.target.value)
                 }} />
 
-                <button className="m-2" onClick={updateLast}>Submit</button>
-                <button className="m-2">delete</button>
+                <div className="d-flex">
+                    <button className="m-2" onClick={updateLast}>Submit</button>
+                    <button className="m-2">Cancel</button>
+                </div>
             </div>
             :
             <></>
             }
+            </div>
 
-            <Table striped bordered hover variant="primary">
+            <Table striped bordered hover variant="dark">
                 <thead>
                     <tr>
                         <th>ID</th>

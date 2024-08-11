@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -11,8 +11,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function App() {
+
+  const [color, setColor] = useState("bluew")
+  const styleObj = {
+    backgroundColor: color
+  }
+
   return (
-    <div className="App">
+    <div className="App" style={styleObj}>
       <BrowserRouter>
         <Routes>
             <Route path='' element={<Login/>}/>

@@ -6,11 +6,13 @@
     border-radius: 5px;
     border: 2px ;
     padding: 20px;
+    
 }
 
 .text-container {
     text-align: center;
     margin-bottom: 100px;
+    color: #F4F7F5;
 }
 
 .input-container {
@@ -28,7 +30,7 @@
 }
 
 .login-button {  
-    background: #00a1e4; 
+    background: rgb(40, 50, 74); 
     width: 12%;
     margin-left:2px;
     margin-right:auto;
@@ -36,6 +38,7 @@
     border-radius: 25px;
     font-size: 1.2rem;
     font-weight: 400;
+    color: #F4F7F5;
     padding: auto;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -44,11 +47,11 @@
 
 .login-button:hover {
     cursor: pointer;
-    box-shadow: 0 0 50px 15px #cdd7dd;
+    box-shadow: 0 0 30px 15px #77781a;
 }
 
 .input-container:hover{
-    box-shadow: 0 0 50px 15px #cdd7dd;
+    box-shadow: 0 0 50px 15px #77781a;
 }
 
 .disclaimer{
@@ -61,3 +64,4 @@ input{
     border-style: hidden;
     width: stretch;
 }
+
