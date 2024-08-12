@@ -44,7 +44,7 @@ export const Register:React.FC = () => {
             navigate("/")
         })
         .catch((error) => {
-            alert("Registered failed -_-: " + error.message)
+            toast.error("Couldn't register user:" + error.message)
         })
     }
 

@@ -57,7 +57,7 @@ export const Login:React.FC = () => {
         )
         .catch(
             (error) => {
-                alert("Login failed!")
+                toast.error("Failed to login")
             }
         )
     }

@@ -64,45 +64,48 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[], refreshRei
 
 
     const updateDescription = async () => {
-
+        
         if(newDescription) {
-            const response = await axios.patch("http://localhost:8080/reimbursements/description/" + selectedReimb.reimbId, newDescription, {
-                headers: {"Content-Type": "text/plain"}
-            })
+            try{
+                const response = await axios.patch("http://localhost:8080/reimbursements/description/" + selectedReimb.reimbId, newDescription, {
+                    headers: {"Content-Type": "text/plain"}
+                })
 
-           {/* {store.loggedInUser.role === "Manager" ? navigate("/allreimbursements"): navigate("/reimbursements")} */}
-            setReimbList(prevList =>
-                prevList.map(reimbursement => 
-                    reimbursement.reimbId === selectedReimb.reimbId
-                    ? {...reimbursement, description:newDescription}
-                    :reimbursement
+           
+                setReimbList(prevList =>
+                    prevList.map(reimbursement => 
+                        reimbursement.reimbId === selectedReimb.reimbId
+                        ? {...reimbursement, description:newDescription}
+                        :reimbursement
+                    )
+
                 )
 
-            )
-
-            refreshReimbs()
+                refreshReimbs()
 
             
             
 
 
-            toast.success("Updated Description!", {
-                position: "top-center",
-                autoClose: 3000
+                toast.success("Updated Description!", {
+                    position: "top-center",
+                    autoClose: 3000
                 
-            })
-            
-
-
-            
+                })
+            } catch(error) {
+                console.error("Error updating description:", error)
+                toast.error("Failed to update description")
+            }
             
 
 
         }
+        setUserOptions(false)
 
     }
     const updateStatus = async () => {
         if(newStatus) {
+            try{
             const response = await axios.patch("http://localhost:8080/reimbursements/" + selectedReimb.reimbId, newStatus, {
                 headers: {"Content-Type": "text/plain"}
             })
@@ -124,6 +127,10 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[], refreshRei
             })
             
             refreshReimbs()
+            } catch(error) {
+                console.error("Error updating status:", error)
+                toast.error("Failed to update status")
+            }
 
             
         }

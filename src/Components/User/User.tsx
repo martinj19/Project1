@@ -48,6 +48,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
     const updateUsername = async () => {
 
         if(newUsername) {
+            try{
             const response = await axios.patch("http://localhost:8080/employees/username/" + selectedUser.employeeId, newUsername, {
                 headers: {"Content-Type": "text/plain"}
             })
@@ -59,7 +60,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 )
 
             )
-            setUserOptions(false)
+            
 
 
             toast.success("Updated Username!", {
@@ -68,11 +69,18 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 
             })
             refreshUsers()
+            }catch(error) {
+                console.error("Error updating username:", error)
+                toast.error("Failed to update username")
+            }
         }
+        setUserOptions(false)
 
     }
     const updateRole = async () => {
+        
         if(newRole) {
+            try{
             const response = await axios.patch("http://localhost:8080/employees/" + selectedUser.employeeId, newRole, {
                 headers: {"Content-Type": "text/plain"}
             })
@@ -84,7 +92,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 )
 
             )
-            setUserOptions(false)
+            
 
 
             toast.success("Updated Role!", {
@@ -93,10 +101,17 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 
             })
             refreshUsers()
+            }catch(error) {
+                console.error("Error updating role:", error)
+                toast.error("Failed to update role")
+            }
+            
         }
+        setUserOptions(false)
     }
     const updateFirst = async () => {
         if(newFirst) {
+            try{
             const response = await axios.patch("http://localhost:8080/employees/firstname/" + selectedUser.employeeId, newFirst, {
                 headers: {"Content-Type": "text/plain"}
             })
@@ -109,7 +124,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 )
 
             )
-            setUserOptions(false)
+            
 
 
             toast.success(`Updated First Name!`, {
@@ -119,14 +134,19 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
             })
             refreshUsers()
 
-            console.log(selectedUser.firstName)
+            } catch(error) {
+                console.error("Error updating first name:", error)
+                toast.error("Failed to update first name")
+            }
         
             
             
         }
+        setUserOptions(false)
     }
     const updateLast = async () => {
         if(newLast) {
+            try{
             const response = await axios.patch("http://localhost:8080/employees/lastname/" + selectedUser.employeeId, newLast, {
                 headers: {"Content-Type": "text/plain"}
             })
@@ -138,7 +158,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 )
 
             )
-            setUserOptions(false)
+            
 
             toast.success("Updated Last Name!", {
                 position: "top-center",
@@ -146,7 +166,12 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
                 
             })
             refreshUsers()
+            } catch(error) {
+                console.error("Error updating last name:", error)
+                toast.error("Failed to update last name")
+            }
         }
+        setUserOptions(false)
     }
 
     const deleteUser = async () => {
@@ -155,7 +180,7 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
         .then((response) => {
             console.log("User Deleted:" + response.data)
 
-            toast.success("Deleted User!", {
+            toast.success("Fired User!", {
                 position: "top-center",
                 autoClose: 3000
                 
@@ -163,6 +188,12 @@ export const User:React.FC<{users:UserInterface[], refreshUsers:() => void}> = (
 
             refreshUsers()
         })
+        .catch(
+            (error) => {
+                toast.error("Couldn't fire user")
+            }
+        )
+        setUserOptions(false)
 
         
     }
