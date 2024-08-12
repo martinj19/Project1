@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { FormControl } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { ReimbInterface } from "../../interfaces/ReimbInterface"
+import { toast } from "react-toastify"
 
 export const AddReimbursement:React.FC = () => {
 
@@ -34,11 +35,15 @@ export const AddReimbursement:React.FC = () => {
         const response = await axios.post("http://localhost:8080/reimbursements", reimb)
         .then((response) => {
             console.log(response.data)
-            alert("Reimbursement was created!")
+            toast.success("Added Reimbursement!", {
+                position: "top-center",
+                autoClose: 3000
+                
+            })
             navigate("/reimbursements")
         })
         .catch((error) => {
-            alert("Reimbursement failed -_-: " + error.message)
+            toast.error("Couldn't add reimbursement")
         })
     }
 

@@ -8,6 +8,8 @@ import { Register } from './Components/LoginRegister/Register';
 import { AddReimbursement } from './Components/Reimbursement/AddReimbursement';
 import { UsersContainer } from './Components/User/UsersContainer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -32,6 +34,8 @@ function App() {
 
         </Routes>
       </BrowserRouter>
+
+      <ToastContainer/>
     </div>
   );
 }

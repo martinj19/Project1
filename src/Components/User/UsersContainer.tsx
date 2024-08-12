@@ -4,6 +4,7 @@ import { UserInterface } from "../../interfaces/UserInterface"
 import axios from "axios"
 import { User } from "./User"
 import { store } from "../../globalData/store"
+import { Navbar, Container, Nav } from "react-bootstrap"
 
 
 export const UsersContainer: React.FC<any> = ({users:any}) => {
@@ -26,18 +27,45 @@ export const UsersContainer: React.FC<any> = ({users:any}) => {
         )
     }
 
-    return(
+    const refreshUsers = async () => {
+      await gettAllUsers()
+    }
 
-        <div style={{alignItems: "center"}}>
-            <button onClick={() => navigate("/")} style={{border: "2px solid black"}}>Logout</button>
-            <button onClick={() => navigate("/addreimbursement")} style={{border: "2px solid black"}}>Add Reimbursement</button>
-            <button onClick={() => navigate("/pendingreimbursements")} style={{border: "2px solid black"}}>Your Pending Reimbursements</button>
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/users")} style={{border: "2px solid black"}}>See Users</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allreimbursements")} style={{border: "2px solid black"}}>All Reimbursements</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allpendingreimbursements")} style={{border: "2px solid black"}}>All Pending Reimbursements</button>:<></>}
-            <User users={users}></User>
-            
+    return (
+        <div>
+          {/* Navbar */}
+          <Navbar bg="" variant="dark" expand="lg">
+            <Container>
+              <Navbar.Brand onClick={() => navigate("/reimbursements")} href="#">Home</Navbar.Brand>
+              <Nav className="me-auto">
+                <Nav.Link onClick={() => navigate("/")}>Logout</Nav.Link>
+                <Nav.Link onClick={() => navigate("/addreimbursement")}>
+                  Add Reimbursement
+                </Nav.Link>
+                <Nav.Link onClick={() => navigate("/reimbursements")}>
+                  Your Reimbursements
+                </Nav.Link>
+                <Nav.Link onClick={() => navigate("/pendingreimbursements")}>
+                  Your Pending Reimbursements
+                </Nav.Link>
+                {store.loggedInUser.role === "Manager" && (
+                  <>
+                    <Nav.Link onClick={() => navigate("/users")}>See Users</Nav.Link>
+                    <Nav.Link onClick={() => navigate("/allreimbursements")}>
+                      All Reimbursements
+                    </Nav.Link>
+                    <Nav.Link onClick={() => navigate("/allpendingreimbursements")}>
+                      All Pending Reimbursements
+                    </Nav.Link>
+                  </>
+                )}
+              </Nav>
+            </Container>
+          </Navbar>
+    
+          <User users={users} refreshUsers={refreshUsers}></User>
         </div>
+      )
 
-    )
+    
 }

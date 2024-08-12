@@ -5,15 +5,18 @@ import { store } from "../../globalData/store"
 import "./Reimbursement.css"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 
-export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimbursements}) => {
+export const Reimbursement:React.FC<{reimbursements:ReimbInterface[], refreshReimbs: () => void}> = ({reimbursements, refreshReimbs}) => {
 
     const navigate = useNavigate()
+    const [reimbList, setReimbList] = useState<ReimbInterface[]>(reimbursements)
 
 
 
     useEffect(() => {
         console.log(reimbursements)
+        setReimbList(reimbursements)
     }, [])
 
     const [selectedReimb, setSelectedReimb] = useState<ReimbInterface>({
@@ -41,10 +44,21 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimb
     }
 
     const handleCancel = () => {
-        // Hide the input box
-        //setNewDescription('');      // Clear the input box state
-        navigate("/reimbursements"); // Navigate to another page
+       setUserOptions(false)
         
+    }
+
+    const handleUpdate = async () => {
+        // Perform update operations
+        if (newDescription) {
+            // Navigate based on user role
+            if (store.loggedInUser.role === "Manager") {
+                refreshReimbs()
+                navigate("/allreimbursements");
+            } else {
+                navigate("/reimbursements");
+            }
+        }
     }
 
 
@@ -56,7 +70,34 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimb
                 headers: {"Content-Type": "text/plain"}
             })
 
-            alert(response.data)
+           {/* {store.loggedInUser.role === "Manager" ? navigate("/allreimbursements"): navigate("/reimbursements")} */}
+            setReimbList(prevList =>
+                prevList.map(reimbursement => 
+                    reimbursement.reimbId === selectedReimb.reimbId
+                    ? {...reimbursement, description:newDescription}
+                    :reimbursement
+                )
+
+            )
+
+            refreshReimbs()
+
+            
+            
+
+
+            toast.success("Updated Description!", {
+                position: "top-center",
+                autoClose: 3000
+                
+            })
+            
+
+
+            
+            
+
+
         }
 
     }
@@ -65,6 +106,26 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimb
             const response = await axios.patch("http://localhost:8080/reimbursements/" + selectedReimb.reimbId, newStatus, {
                 headers: {"Content-Type": "text/plain"}
             })
+
+            setReimbList(prevList =>
+                prevList.map(reimbursement => 
+                    reimbursement.reimbId === selectedReimb.reimbId
+                    ? {...reimbursement, status:newStatus}
+                    :reimbursement
+                )
+
+            )
+
+
+            toast.success("Updated Status!", {
+                position: "top-center",
+                autoClose: 3000
+                
+            })
+            
+            refreshReimbs()
+
+            
         }
     }
 
@@ -79,7 +140,7 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimb
             <div className="d-flex justify-content-center">
                 {/* Updates description */}
                 {userOptions && (
-                <div className="m-5 w-25 d-flex flex-column aligh-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
+                <div className="m-5 w-25 d-flex flex-column align-items-start p-3" style={{border: '2px solid black', borderRadius: "15px"}}>
                     <p className="m-2" style={{color: "white"}}>Description</p>
                     <input className="m-2" type="text" placeholder="new description" onChange={(input) => {
                         setNewDescription(input.target.value)
@@ -130,7 +191,11 @@ export const Reimbursement:React.FC<{reimbursements:ReimbInterface[]}> = ({reimb
                             <td>{reimbursement.reimbId}</td>
                             <td>{reimbursement.description}</td>
                             <td>{reimbursement.amount}</td>
-                            <td>{reimbursement.status}</td>
+                            <td style={{
+                                color: reimbursement.status === "APPROVED"? "#90ee90": reimbursement.status === "PENDING"? "yellow"
+                            : reimbursement.status === "DECLINED" ? "red":"white"}}>
+                                    {reimbursement.status}
+                                    </td>
                             <td>
                                 <Button variant="outline-info">Update</Button>
                             </td>

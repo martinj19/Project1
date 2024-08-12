@@ -5,6 +5,7 @@ import axios from "axios"
 import { Reimbursement } from "./Reimbursement"
 import { store } from "../../globalData/store"
 import "./ReimbursementContainer.css"
+import { Nav, Navbar, NavDropdown } from "react-bootstrap"
 
 export const ReimbursementContainer:React.FC = () => {
 
@@ -28,7 +29,11 @@ export const ReimbursementContainer:React.FC = () => {
         else {
             getAllReimbTwo()
         }
+
+
     }, [location.pathname])
+
+    
 
     const getAllReimb = async () => {
         
@@ -67,27 +72,47 @@ export const ReimbursementContainer:React.FC = () => {
         console.log(response.data)
     }
 
+    const refreshReimbs = async () => {
+        if (store.loggedInUser.role === "Manager") {
+            await getAllReimbTwo()
+            navigate("/allreimbursements")
+        }
+        else {
+            await getAllReimb()        
+            navigate("/reimbursements")
+        }
+    }
+
+     
+    
 
 
-    return(
-
-       
-
-        <div className="collection-container" style={{alignItems: "center"}}>
-         <div style={{alignItems: "center"}}>
-            <button onClick={() => navigate("/")} style={{border: "2px solid black"}}>Logout</button>
-            <button onClick={() => navigate("/addreimbursement")} style={{border: "2px solid black"}}>Add Reimbursement</button>
-            <button onClick={() => navigate("/pendingreimbursements")} style={{border: "2px solid black"}}>Your Pending Reimbursements</button>
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/users")} style={{border: "2px solid black"}}>See Users</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allreimbursements")} style={{border: "2px solid black"}}>All Reimbursements</button>:<></>}
-            {store.loggedInUser.role === "Manager" ? <button onClick={() => navigate("/allpendingreimbursements")} style={{border: "2px solid black"}}>All Pending Reimbursements</button>:<></>}
-        </div>
-
-            <Reimbursement reimbursements={reimbursements}></Reimbursement>
-
-        </div>
-
-    )
+        return (
+            <div className="collection-container" style={{ alignItems: "center" }}>
+                <Navbar bg="" variant="dark" expand="lg">
+                    <Navbar.Brand onClick={() => navigate("/reimbursements")} style={{ cursor: 'pointer' }}>Home</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+                            <Nav.Link onClick={() => navigate("/")}>Logout</Nav.Link>
+                            <Nav.Link onClick={() => navigate("/addreimbursement")}>Add Reimbursement</Nav.Link>
+                            <Nav.Link onClick={() => navigate("/reimbursements")}>Your Reimbursements</Nav.Link>
+                            <Nav.Link onClick={() => navigate("/pendingreimbursements")}>Your Pending Reimbursements</Nav.Link>
+                            {store.loggedInUser.role === "Manager" && (
+                                <NavDropdown title="Manager Options" id="basic-nav-dropdown">
+                                    <NavDropdown.Item onClick={() => navigate("/users")}>See Users</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => navigate("/allreimbursements")}>All Reimbursements</NavDropdown.Item>
+                                    <NavDropdown.Item onClick={() => navigate("/allpendingreimbursements")}>All Pending Reimbursements</NavDropdown.Item>
+                                </NavDropdown>
+                            )}
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
+    
+                <Reimbursement reimbursements={reimbursements} refreshReimbs={refreshReimbs}></Reimbursement>
+            </div>
+        )
+        
 
 
 }
